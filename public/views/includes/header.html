@@ -1,0 +1,51 @@
+<div class="container">
+  <div data-ng-controller="HeaderController">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" data-ng-click="$root.isCollapsed = !$root.isCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="insight" href="/"> <img src="/img/PKBinsight.png"/></a>
+    </div>
+    <div class="navbar-collapse collapse" collapse="$root.isCollapsed">
+	<section data-ng-controller="BlocksController" data-ng-init="list()">
+          <ul class="nav navbar-nav">
+          
+          <li  ui-route="/blocks-date/{{pagination.current}}" data-ng-class="{active: $uiRoute}" class="ng-scope">
+          <a href="/blocks-date/{{pagination.current}}" class="ng-binding">Blocks</a>
+		  
+          <li ui-route="/status" data-ng-class="{active: $uiRoute}" class="ng-scope">
+          <a href="/status" class="ng-binding">Status</a>
+        </li><!-- end ngRepeat: item in menu -->
+      </ul>
+	  </section>
+      <span class="hidden-xs navbar-form navbar-left" data-ng-include src="'/views/includes/search.html'"></span>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+      <div class="status" data-ng-controller="StatusController">
+        <div data-ng-init="getSync()" class="pull-left">
+          <span class="t text-danger"  data-ng-show="sync.error" tooltip="{{sync.error}}" tooltip-placement="bottom"> 
+              <span  class="glyphicon glyphicon-warning-sign"></span>
+              ERROR 
+          </span>
+          <span class="t" tooltip="{{sync.syncedBlocks}} / {{sync.blockChainHeight}} synced. {{sync.skippedBlocks || 0}} skipped" tooltip-placement="bottom" data-ng-show="sync.status==='syncing'"> 
+            <span  class="glyphicon glyphicon-refresh icon-rotate"></span>
+            {{sync.syncPercentage}}%
+          </span>
+          <span class="glyphicon glyphicon-ok" tooltip="Historic sync finished" tooltip-placement="bottom" data-ng-show="sync.status==='finished'"> </span>
+        </div>
+        &nbsp; &middot;
+        <span data-ng-init="getStatus('Info')">
+          <strong>{{'Conn'|translate}}</strong> {{info.connections}}
+        </span> &middot;
+        <strong>{{'Height'|translate}}</strong> {{totalBlocks || info.blocks}}
+
+      </div>
+      </li>
+
+      </ul>
+    </div>
+  </div>
+</div>
